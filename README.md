@@ -1,2 +1,3 @@
 # Busca_Dados
-Busca e Dowload de dados geometricos_ponto  no site especifico 
+Download deflorestation data from jjfast, in Brazil's territory. Especified a final e begining date. 
+
