@@ -16,7 +16,10 @@ When done, all files will be in: <b> /home/user/jjfast/brasil/</b>  :file_folder
 
 If you preffer, you can merge all and convert to GPKG format. using this code:
 
+
 ```sh
+chmod +x mergeall.sh
+
 ./mergeall.sh
 
 ```
