@@ -1,95 +1,97 @@
 """
-    FUNÇÕES E OBJETO EM USO NO PROGRAMA 'BUSCA_DADOS.PY'
-    VERSAO2- maior organização 
-
-
-
+function in used, pay attention when modify names or change something
 
 """
-class Longitude(object):
-    """
-        Objeto para as longitudes, ficando mais facil pegar varias longitudes dentro de uma longitude
-        dessa forma iremos tambem diminuir nossas linhas for 
-        
-    """
-    def __init__(self,lat_inicio, lat_fim):
-        self.lat_fim=lat_fim
-        self.lat_inicio=lat_inicio
-        
-    def __iter__(self):            
-        if self.lat_inicio < self.lat_fim:
-            
-            for i in range(self.lat_inicio,self.lat_fim+1):
-                yield i
-        
-        else:
-            
-            raise StopIteration
+import json
+import os
+import errno
+from bs4 import BeautifulSoup
+import requests
+import sys
+
+def jsonfile(name):
+    k = open(name)
+    file = json.load(k)
+    for i in file:
+        listar = file['%s' % (i)]
+        y = listar.split(' ')
+        yield (i, y)
 
 
-class BaixaArquivo(object):
-    """
-    Criei esse objeto para ele ser responsavel em baixar e organizar os arquivos na pasta
-    
-        uma função de criar a pasta do arquivo 
-        uma função para baixar o arquivo e colocar na pasta correspondente
-        
-    arg:
-        url- link para baixar o arquivo
-        nome- caminho para salvar o arquivo
-        
-    """
-    def __init__(self, url,nome):
-        self.url=url
-        self.nome=nome
-    def CriaPasta(self, longitude):
-        """
-        Criar a pasta de acordo com o link(longitude) do documento 
-        
-        arg:
-            longitude - função Longitude
-        
-        """
-        import os
-        
+def CreateDir():
+    try:
+        mylocal = str(os.path.expanduser('~'))
+        directory = "jjfast"
+        path = os.path.join(mylocal, directory)
+        os.mkdir(path)
+    except OSError as err:
+        if err.errno == errno.EEXIST:
+            print("Directory Alredy exist")
+        return path
+    return path
+
+
+def downLinks(lista):
+    for i in lista:
+        url_t = 'https://www.eorc.jaxa.jp/jjfast/data_private/shape/'+i + '/'
+        visualizar_url = requests.get(url_t)
+        print(visualizar_url.status_code)
+        view1 = visualizar_url.text
+        soup = BeautifulSoup(view1, 'html.parser')
+        return GetLink(soup), url_t
+
+
+def GetLink(bs4):
+    string = ''
+    for links in bs4.find_all('a'):
+        string += links.get('href')
+    return string
+
+
+def openable(soup, path):
+    links = []
+    loop = 0
+    for a in soup.find_all('a'):
+        links.append(a.get('href'))
+
+    count = 0
+    dates = []
+    for y in links:
+        name = links[count]
+        searchfor = name.find('_21')
+        searchfor2 = name.find('_22')
+
+        if searchfor != -1 or searchfor2 != -1:
+            print(name)
+            dates.append(name)
+        count += 1
+    try:
+        name_subdir = 'brasil'
+        subdir = os.path.join(path, name_subdir)
+        os.mkdir(subdir)
+    except OSError as err:
+        if err.errno == errno.EEXIST:
+            print("Directory Alredy exist")
+    return dates, subdir
+
+
+def downloads(dates, subdir, fileYearPath):
+    loop = 0
+    for names in dates:
         try:
-            
-            path=str(input("Digite o nome do caminho: "))
-            diretorio_mae=(path+'S'+str(lat)+'/')
-            os.mkdir(diretorio_mae)
-            
-            #criando a sub-pasta:
-            for pasta in longitude:
-                diretorio=diretorio_mae+str(pasta)+'/'
-                os.mkdir(diretorio)  
-            
-        except FileExistsError as er:
-            diretorio=diretorio_mae+str(log_final)+'/'
-            
-        return BaixaArquivo(self, diretorio)
-    
-    def BaixaArquivo(self, diretorio):
-        """
-        Baixa o arquivo e coloca na pasta correspondente 
-        
-        ARG:
-            Vai receber os caminhos existentes, para baixar e colocar nas pastas
-        
-        """
-class ulr(object):
-    """
-    Responsavel por cuidar de todo e qualquer ulr
-    requisitar
-    e organizar para o download
-    
-    
-    """
-    
-            
+            filepath = subdir + '/' + names
+            print(filepath)
 
+            if os.path.isfile(filepath) == True:
+                print('this file alredy exists')
+                continue
 
+            else:
+                url = fileYearPath + '/' + names
+                print(url)
+                result = requests.get(url, allow_redirects=True, verify=False)
+                open(filepath, 'wb').write(result.content)
 
-
-            
-            
-
+        except Exception as e:
+            print(e, '\n')
+            sys.exit("exiting")
