@@ -11,7 +11,16 @@ In same directory cloned execute:
 python3 searchfor.py
 
 ```
+When done, all files will be in: <b> /home/user/jjfast/brasil/</b>  :file_folder:
+ - format .zip
 
+If you preffer, you can merge all and convert to GPKG format. using this code:
+
+```sh
+./mergeall.sh
+
+```
+When you run, the merge file will be in : <b> /home/user/jjfast/  </b> :file_folder:
 # :point_right: Observations
 
  - Local File: user home > jjfast> brasil. 
