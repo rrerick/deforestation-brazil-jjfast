@@ -60,8 +60,9 @@ def openable(soup, path):
         name = links[count]
         searchfor = name.find('_21')
         searchfor2 = name.find('_22')
+        searchfor3 = name.find('_23')
 
-        if searchfor != -1 or searchfor2 != -1:
+        if searchfor != -1 or searchfor2 != -1 or searchfor3 != -1:
             print(name)
             dates.append(name)
         count += 1
