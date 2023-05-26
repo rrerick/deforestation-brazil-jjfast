@@ -27,7 +27,7 @@ When you run, the merge file will be in : <b> /home/user/jjfast/  </b> :file_fol
 # :point_right: Observations
 
  - Local File: user home > jjfast> brasil. 
- - Dowload years: 2021 and 2022
+ - Dowload years: 2021,2022 and 2023
  - Verify the disk space and internet connection
 
 
