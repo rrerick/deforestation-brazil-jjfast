@@ -5,17 +5,17 @@
 
 # :point_right: Execution
 
-In same directory cloned execute:
+In the same cloned directory, run:
 
 ```sh 
 python3 searchfor.py
 
 ```
-When done, all files will be in: <b> /home/user/jjfast/brasil/</b>  :file_folder:
+Once done, all files will be located in: <b>/home/user/jjfast/brasil/</b> :file_folder:
+
  - format .zip
 
-If you preffer, you can merge all and convert to GPKG format. using this code:
-
+If you prefer, you can merge all files and convert them to GPKG format using the following command:
 
 ```sh
 chmod +x mergeall.sh
@@ -23,12 +23,13 @@ chmod +x mergeall.sh
 ./mergeall.sh
 
 ```
-When you run, the merge file will be in : <b> /home/user/jjfast/  </b> :file_folder:
+After running the script, the merged file will be in: <b>/home/user/jjfast/</b> :file_folder:
+
 # :point_right: Observations
 
  - Local File: user home > jjfast> brasil. 
  - Dowload years: 2021,2022 and 2023
- - Verify the disk space and internet connection
+ - Ensure enough disk space and a stable internet connection
 
 
 <h3>Author</h3>
